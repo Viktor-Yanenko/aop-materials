@@ -13,6 +13,7 @@
     align-items: center;
     justify-content: space-between;
     height: 64px;
+    gap: 16px;
 }
 
 .logo {
@@ -23,6 +24,8 @@
     font-weight: 600;
     font-size: 0.95rem;
     letter-spacing: 0.06em;
+    flex-shrink: 0;
+    white-space: nowrap;
 }
 
 .logo::before {
@@ -83,8 +86,33 @@
     transform: scaleX(1);
 }
 
+.logoShort {
+    display: none;
+}
+
+/* планшет і телефон: коротка назва */
+@media (max-width: 900px) {
+    .logoFull {
+        display: none;
+    }
+
+    .logoShort {
+        display: inline;
+    }
+}
+
+/* телефон */
 @media (max-width: 600px) {
     .nav {
         gap: 16px;
+    }
+
+    .link,
+    .active {
+        font-size: 0.9rem;
+    }
+
+    .hideMobile {
+        display: none;
     }
 }

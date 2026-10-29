@@ -6,7 +6,7 @@ import styles from "./Header.module.css";
 import ThemeToggle from "@/components/ThemeToggle/ThemeToggle";
 
 const links = [
-  { href: "/", label: "Головна" },
+  { href: "/", label: "Головна", hideOnMobile: true },
   { href: "/lectures", label: "Лекції" },
   { href: "/practicals", label: "Практичні" },
 ];
@@ -21,15 +21,20 @@ export default function Header() {
   return (
     <header className={styles.header}>
       <div className={`container ${styles.inner}`}>
-        <Link href="/" className={styles.logo}>
-          Алгоритмізація та основи програмування
+        <Link href="/" className={styles.logo} aria-label="На головну">
+          <span className={styles.logoFull}>
+            Алгоритмізація та основи програмування
+          </span>
+          <span className={styles.logoShort}>АОП</span>
         </Link>
         <nav className={styles.nav}>
           {links.map((l) => (
             <Link
               key={l.href}
               href={l.href}
-              className={isActive(l.href) ? styles.active : styles.link}
+              className={`${isActive(l.href) ? styles.active : styles.link} ${
+                l.hideOnMobile ? styles.hideMobile : ""
+              }`}
             >
               {l.label}
             </Link>
