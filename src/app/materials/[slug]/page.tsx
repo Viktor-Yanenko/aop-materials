@@ -9,6 +9,7 @@ import {
   downloadUrl,
 } from "@/data/materials";
 import styles from "./page.module.css";
+import DoneButton from "@/components/DoneButton/DoneButton";
 
 export const dynamicParams = false;
 
@@ -58,6 +59,7 @@ export default async function MaterialPage({
         >
           Відкрити в Google Drive
         </a>
+        <DoneButton slug={material.slug} />
       </div>
 
       <div className={styles.viewer}>
