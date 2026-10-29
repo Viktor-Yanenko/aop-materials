@@ -16,9 +16,7 @@ export default function SectionedList({ type }: { type: MaterialType }) {
         if (items.length === 0) return null;
         return (
           <section key={s.id} className={styles.block}>
-            <p className={styles.meta}>
-              Модуль {s.module} · Розділ {s.number}
-            </p>
+            <p className={styles.meta}>Розділ {s.number}</p>
             <h2 className={styles.heading}>{s.title}</h2>
             <MaterialList items={items} />
           </section>

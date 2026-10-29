@@ -51,9 +51,7 @@ export default function Sidebar() {
           return (
             <details key={s.id} className={styles.section} open>
               <summary className={styles.sectionHeader}>
-                <span className={styles.sectionModule}>
-                  Модуль {s.module} · Розділ {s.number}
-                </span>
+                <span className={styles.sectionModule}>Розділ {s.number}</span>
                 <span className={styles.sectionTitle}>{s.title}</span>
                 <span className={styles.sectionCount}>
                   {sectionDone}/{items.length}

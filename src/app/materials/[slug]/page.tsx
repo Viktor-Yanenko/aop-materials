@@ -50,28 +50,37 @@ export default async function MaterialPage({
         <p className={styles.description}>{material.description}</p>
       )}
 
-      <div className={styles.actions}>
-        <a href={downloadUrl(material.driveId)} className={styles.download}>
-          Завантажити ({material.format.toUpperCase()})
-        </a>
-        <a
-          href={`https://drive.google.com/file/d/${material.driveId}/view`}
-          target="_blank"
-          rel="noopener noreferrer"
-          className={styles.secondary}
-        >
-          Відкрити в Google Drive
-        </a>
-        <DoneButton slug={material.slug} />
-      </div>
+      {material.driveId ? (
+        <>
+          <div className={styles.actions}>
+            <a href={downloadUrl(material.driveId)} className={styles.download}>
+              Завантажити ({material.format.toUpperCase()})
+            </a>
+            <a
+              href={`https://drive.google.com/file/d/${material.driveId}/view`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.secondary}
+            >
+              Відкрити в Google Drive
+            </a>
+            <DoneButton slug={material.slug} />
+          </div>
 
-      <div className={styles.viewer}>
-        <iframe
-          src={previewUrl(material.driveId)}
-          title={material.title}
-          allow="autoplay"
-        />
-      </div>
+          <div className={styles.viewer}>
+            <iframe
+              src={previewUrl(material.driveId)}
+              title={material.title}
+              allow="autoplay"
+            />
+          </div>
+        </>
+      ) : (
+        <div className={styles.empty}>
+          <p>Матеріал ще не додано.</p>
+          <span>Зазирніть сюди трохи згодом.</span>
+        </div>
+      )}
 
       <nav className={styles.pager}>
         {prev ? (
