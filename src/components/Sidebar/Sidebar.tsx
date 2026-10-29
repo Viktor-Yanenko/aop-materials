@@ -1,0 +1,54 @@
+"use client";
+
+import { useState } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { materials } from "@/data/materials";
+import styles from "./Sidebar.module.css";
+
+const shortLabels = {
+  lecture: "Лекція",
+  practical: "ПР",
+};
+
+export default function Sidebar() {
+  const pathname = usePathname().replace(/\/$/, ""); // прибираємо кінцевий "/"
+  const [open, setOpen] = useState(false);
+
+  return (
+    <aside className={styles.sidebar}>
+      <button
+        className={styles.toggle}
+        onClick={() => setOpen(!open)}
+        aria-expanded={open}
+      >
+        {open ? "Сховати зміст" : "Зміст"}
+      </button>
+
+      <nav className={`${styles.nav} ${open ? styles.open : ""}`}>
+        <ol className={styles.list}>
+          {materials.map((m) => {
+            const href = `/materials/${m.slug}`;
+            const active = pathname === href;
+            return (
+              <li key={m.slug}>
+                <Link
+                  href={href}
+                  className={`${styles.item} ${active ? styles.active : ""} ${
+                    m.type === "practical" ? styles.practical : ""
+                  }`}
+                  onClick={() => setOpen(false)}
+                >
+                  <span className={styles.label}>
+                    {shortLabels[m.type]} {m.number}
+                  </span>
+                  <span className={styles.title}>{m.title}</span>
+                </Link>
+              </li>
+            );
+          })}
+        </ol>
+      </nav>
+    </aside>
+  );
+}
