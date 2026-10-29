@@ -1,9 +1,10 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  output: "export",          // збірка в статичні HTML-файли (папка out/)
-  trailingSlash: true,       // /lectures/ → lectures/index.html, зручно для хостингу
-  images: { unoptimized: true }, // next/image без сервера
+  output: "export",
+  trailingSlash: true,
+  images: { unoptimized: true },
+  basePath: process.env.PAGES_BASE_PATH || "",
 };
 
 export default nextConfig;
