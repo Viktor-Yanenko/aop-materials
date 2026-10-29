@@ -135,6 +135,73 @@
   color: var(--muted);
 }
 
+.teachers {
+  margin-top: 64px;
+  animation: rise 0.7s var(--ease) 0.4s both;
+}
+
+.teachersTitle {
+  font-size: 1.6rem;
+  margin-bottom: 20px;
+}
+
+.teacherList {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.teacher {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.avatar {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  font-family: var(--font-heading);
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.teacherName {
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.teacherRole {
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.teacherEmail {
+  display: inline-block;
+  margin-top: 4px;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--accent);
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.3s var(--ease);
+}
+
+.teacherEmail:hover {
+  border-bottom-color: var(--accent);
+}
+
 @media (max-width: 600px) {
   .page {
     padding: 40px 0 48px;

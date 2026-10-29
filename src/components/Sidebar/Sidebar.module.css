@@ -1,17 +1,38 @@
+/* колонка-«рейка»: тягнеться на всю висоту до футера */
 .sidebar {
-    position: sticky;
-    top: 88px;
-    align-self: start;
+    border-right: 1px solid var(--border);
+    padding-right: 20px;
 }
 
 .toggle {
     display: none;
 }
 
+/* сам список «липне» під шапкою */
 .nav {
-    max-height: calc(100vh - 112px);
+    position: sticky;
+    top: 64px;
+    /* висота шапки */
+    max-height: calc(100vh - 64px);
+    max-height: calc(100dvh - 64px);
     overflow-y: auto;
+    padding: 32px 4px 48px 0;
+
+    /* ледь помітний повзунок */
     scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
+
+    /* м’яке затухання внизу: «там ще є» */
+    mask-image: linear-gradient(to bottom, #000 calc(100% - 40px), transparent);
+}
+
+.nav::-webkit-scrollbar {
+    width: 6px;
+}
+
+.nav::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 3px;
 }
 
 .list {
@@ -72,7 +93,7 @@
 
 /* прогрес */
 .progress {
-    padding: 0 12px 18px 0;
+    padding: 0 12px 20px 0;
 }
 
 .progressText {
@@ -126,12 +147,10 @@
     padding: 0 4px 10px 0;
     cursor: pointer;
     list-style: none;
-    /* прибираємо стандартний трикутник */
 }
 
 .sectionHeader::-webkit-details-marker {
     display: none;
-    /* те саме для Safari */
 }
 
 .sectionModule {
@@ -177,7 +196,6 @@
     transform: rotate(-90deg);
 }
 
-/* плавне згортання розділу (Chrome/Edge 131+; в інших браузерах просто без анімації) */
 .section::details-content {
     block-size: 0;
     overflow: hidden;
@@ -188,10 +206,11 @@
     block-size: auto;
 }
 
-/* телефон: плавне розгортання */
+/* телефон: панель над контентом, згорнута в кнопку */
 @media (max-width: 800px) {
     .sidebar {
-        position: static;
+        border-right: 0;
+        padding-right: 0;
     }
 
     .toggle {
@@ -219,9 +238,12 @@
     }
 
     .nav {
+        position: static;
         max-height: 0;
         opacity: 0;
         overflow: hidden;
+        padding: 0;
+        mask-image: none;
         transition: max-height 0.45s var(--ease), opacity 0.3s, margin-top 0.3s;
     }
 
@@ -230,5 +252,6 @@
         opacity: 1;
         overflow-y: auto;
         margin-top: 12px;
+        padding: 16px 4px 16px 0;
     }
 }

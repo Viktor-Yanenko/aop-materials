@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Golos_Text, Literata, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header/Header";
+import Footer from "@/components/Footer/Footer";
 
 const golos = Golos_Text({
   variable: "--font-golos",
@@ -38,6 +39,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body>
         <Header />
         <main className="container">{children}</main>
+        <Footer />
       </body>
     </html>
   );

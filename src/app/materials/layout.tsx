@@ -5,7 +5,7 @@ export default function MaterialsLayout({
   children,
 }: LayoutProps<"/materials">) {
   return (
-    <div className={styles.wrapper}>
+    <div className={styles.wrapper} data-docs>
       <Sidebar />
       <div className={styles.content}>{children}</div>
     </div>
