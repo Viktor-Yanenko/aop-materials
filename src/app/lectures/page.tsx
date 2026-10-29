@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
-import MaterialList from "@/components/MaterialList/MaterialList";
-import { getMaterialsByType } from "@/data/materials";
+import SectionedList from "@/components/SectionedList/SectionedList";
 
 export const metadata: Metadata = {
   title: "Лекції | АОП",
@@ -11,7 +10,7 @@ export default function LecturesPage() {
     <>
       <h1 className="page-title">Лекції</h1>
       <p className="page-subtitle">Конспекти лекцій у форматі PDF.</p>
-      <MaterialList items={getMaterialsByType("lecture")} />
+      <SectionedList type="lecture" />
     </>
   );
 }

@@ -1,0 +1,16 @@
+.block + .block {
+    margin-top: 48px;
+}
+
+.meta {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--accent);
+}
+
+.heading {
+    font-size: 1.5rem;
+    margin: 4px 0 16px;
+}

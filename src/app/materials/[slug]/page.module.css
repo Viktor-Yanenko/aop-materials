@@ -1,54 +1,101 @@
 .label {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
     color: var(--accent);
-    font-weight: 600;
-    font-size: 0.9rem;
 }
 
 .title {
-    font-size: 1.8rem;
-    line-height: 1.25;
-    margin: 4px 0 8px;
+    font-size: clamp(1.7rem, 3vw, 2.4rem);
+    line-height: 1.15;
+    margin: 8px 0 10px;
 }
 
 .description {
+    max-width: 680px;
     color: var(--muted);
-    margin-bottom: 16px;
+    margin-bottom: 20px;
 }
 
 .actions {
     display: flex;
     flex-wrap: wrap;
-    gap: 12px;
-    margin-bottom: 20px;
+    gap: 10px;
+    margin-bottom: 24px;
 }
 
 .download,
 .secondary {
-    padding: 10px 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
     border-radius: var(--radius);
-    font-weight: 600;
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: background 0.3s var(--ease), border-color 0.3s var(--ease), transform 0.15s;
 }
 
 .download {
+    background: var(--text);
+    color: var(--bg);
+}
+
+.download::before {
+    content: "↓";
+    transition: transform 0.3s var(--ease);
+}
+
+.download:hover {
     background: var(--accent);
     color: #fff;
 }
 
+.download:hover::before {
+    transform: translateY(3px);
+}
+
 .secondary {
     border: 1px solid var(--border);
-    background: var(--surface);
 }
 
-.download:hover,
+.secondary::after {
+    content: "↗";
+    transition: transform 0.3s var(--ease);
+}
+
 .secondary:hover {
-    opacity: 0.9;
+    border-color: var(--text);
 }
 
+.secondary:hover::after {
+    transform: translate(2px, -2px);
+}
+
+.download:active,
+.secondary:active {
+    transform: scale(0.97);
+}
+
+/* поки iframe вантажиться, під ним «переливається» фон */
 .viewer {
     border: 1px solid var(--border);
     border-radius: var(--radius);
     overflow: hidden;
-    background: var(--surface);
+    background: linear-gradient(100deg, var(--surface) 35%, var(--border) 50%, var(--surface) 65%);
+    background-size: 300% 100%;
+    animation: shimmer 1.8s linear infinite;
+}
+
+@keyframes shimmer {
+    from {
+        background-position: 100% 0;
+    }
+
+    to {
+        background-position: 0 0;
+    }
 }
 
 .viewer iframe {
@@ -59,34 +106,54 @@
 }
 
 .pager {
-    display: flex;
-    justify-content: space-between;
-    gap: 16px;
-    margin-top: 24px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 32px;
 }
 
 .pagerLink {
     display: flex;
     flex-direction: column;
-    max-width: 48%;
-    padding: 12px 16px;
+    gap: 4px;
+    padding: 16px 20px;
     border: 1px solid var(--border);
     border-radius: var(--radius);
-    background: var(--surface);
+    font-family: var(--font-heading);
     font-weight: 600;
+    transition: border-color 0.3s var(--ease), background 0.3s var(--ease);
 }
 
 .pagerLink span {
-    font-size: 0.8rem;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
     font-weight: 400;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
     color: var(--muted);
+    transition: color 0.3s;
 }
 
 .pagerLink:hover {
-    border-color: var(--accent);
+    border-color: var(--text);
+    background: var(--surface);
+}
+
+.pagerLink:hover span {
+    color: var(--accent);
 }
 
 .pagerNext {
-    margin-left: auto;
+    grid-column: 2;
     text-align: right;
+}
+
+@media (max-width: 600px) {
+    .pager {
+        grid-template-columns: 1fr;
+    }
+
+    .pagerNext {
+        grid-column: 1;
+    }
 }

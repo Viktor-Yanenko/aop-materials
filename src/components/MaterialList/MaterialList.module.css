@@ -1,8 +1,6 @@
 .list {
     list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+    border-top: 1px solid var(--border);
 }
 
 .item {
@@ -10,26 +8,43 @@
     display: flex;
     flex-direction: column;
     gap: 2px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 16px 72px 16px 20px;
-    /* справа місце під бейдж формату */
-    transition: border-color 0.15s;
+    padding: 18px 88px 18px 16px;
+    border-bottom: 1px solid var(--border);
+    transition: background 0.3s var(--ease), padding-left 0.35s var(--ease);
+}
+
+.item::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: var(--accent);
+    transform: scaleY(0);
+    transition: transform 0.35s var(--ease);
 }
 
 .item:hover {
-    border-color: var(--accent);
+    background: var(--surface);
+    padding-left: 26px;
+}
+
+.item:hover::before {
+    transform: scaleY(1);
 }
 
 .label {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
     color: var(--accent);
-    font-size: 0.85rem;
-    font-weight: 600;
 }
 
 .title {
-    font-size: 1.1rem;
+    font-family: var(--font-heading);
+    font-size: 1.2rem;
     font-weight: 600;
 }
 
@@ -40,14 +55,15 @@
 
 .format {
     position: absolute;
-    top: 16px;
+    top: 50%;
     right: 16px;
-    font-size: 0.75rem;
-    font-weight: 700;
+    transform: translateY(-50%);
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
     color: var(--muted);
     border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 2px 8px;
+    border-radius: 4px;
+    padding: 2px 6px;
 }
 
 .empty {

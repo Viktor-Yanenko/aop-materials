@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import styles from "./Header.module.css";
+import ThemeToggle from "@/components/ThemeToggle/ThemeToggle";
 
 const links = [
   { href: "/", label: "Головна" },
@@ -21,7 +22,7 @@ export default function Header() {
     <header className={styles.header}>
       <div className={`container ${styles.inner}`}>
         <Link href="/" className={styles.logo}>
-          АОП
+          Алгоритмізація та основи програмування
         </Link>
         <nav className={styles.nav}>
           {links.map((l) => (
@@ -33,6 +34,7 @@ export default function Header() {
               {l.label}
             </Link>
           ))}
+          <ThemeToggle />
         </nav>
       </div>
     </header>

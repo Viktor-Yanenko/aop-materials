@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import {
   materials,
   getMaterialBySlug,
+  getSection,
   typeLabels,
   previewUrl,
   downloadUrl,
@@ -31,6 +32,7 @@ export default async function MaterialPage({
   const { slug } = await params;
   const material = getMaterialBySlug(slug);
   if (!material) notFound();
+  const section = getSection(material.section);
 
   // сусіди за порядком робочої програми
   const index = materials.findIndex((m) => m.slug === slug);
@@ -40,6 +42,7 @@ export default async function MaterialPage({
   return (
     <article>
       <p className={styles.label}>
+        {section && `Розділ ${section.number} · `}
         {typeLabels[material.type]} {material.number}
       </p>
       <h1 className={styles.title}>{material.title}</h1>
