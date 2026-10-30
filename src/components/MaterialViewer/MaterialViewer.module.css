@@ -1,0 +1,179 @@
+/* вкладки */
+.tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    width: fit-content;
+    max-width: 100%;
+    margin-bottom: 16px;
+    padding: 4px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: calc(var(--radius) + 4px);
+}
+
+.tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border: 0;
+    border-radius: var(--radius);
+    background: transparent;
+    color: var(--muted);
+    font: inherit;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.3s var(--ease), color 0.3s;
+}
+
+.tab:hover {
+    color: var(--text);
+}
+
+.tabActive,
+.tabActive:hover {
+    background: var(--text);
+    color: var(--bg);
+}
+
+.tabFormat {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.04em;
+    opacity: 0.7;
+}
+
+/* кнопки */
+.actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 24px;
+}
+
+.download,
+.secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    border-radius: var(--radius);
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: background 0.3s var(--ease), border-color 0.3s var(--ease), transform 0.15s;
+}
+
+.download {
+    background: var(--text);
+    color: var(--bg);
+}
+
+.download::before {
+    content: "↓";
+    transition: transform 0.3s var(--ease);
+}
+
+.download:hover {
+    background: var(--accent);
+    color: #fff;
+}
+
+.download:hover::before {
+    transform: translateY(3px);
+}
+
+.secondary {
+    border: 1px solid var(--border);
+}
+
+.secondary::after {
+    content: "↗";
+    transition: transform 0.3s var(--ease);
+}
+
+.secondary:hover {
+    border-color: var(--text);
+}
+
+.secondary:hover::after {
+    transform: translate(2px, -2px);
+}
+
+.download:active,
+.secondary:active {
+    transform: scale(0.97);
+}
+
+/* перегляд */
+.viewer {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: linear-gradient(100deg, var(--surface) 35%, var(--border) 50%, var(--surface) 65%);
+    background-size: 300% 100%;
+    animation: shimmer 1.8s linear infinite;
+}
+
+@keyframes shimmer {
+    from {
+        background-position: 100% 0;
+    }
+
+    to {
+        background-position: 0 0;
+    }
+}
+
+.viewer iframe {
+    display: block;
+    width: 100%;
+    height: 80vh;
+    border: 0;
+    animation: appear 0.4s var(--ease);
+}
+
+/* презентація: пропорції слайда, а не висота екрана */
+.slides iframe {
+    height: auto;
+    aspect-ratio: 16 / 10;
+}
+
+@keyframes appear {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+/* телефон */
+@media (max-width: 600px) {
+    .tabs {
+        width: 100%;
+    }
+
+    .tab {
+        flex: 1;
+        justify-content: center;
+    }
+
+    .actions {
+        flex-direction: column;
+    }
+
+    .actions>* {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .viewer iframe {
+        height: 70vh;
+    }
+
+    .slides iframe {
+        height: auto;
+    }
+}

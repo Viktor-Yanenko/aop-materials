@@ -23,7 +23,10 @@ export default function MaterialList({ items }: Props) {
             {m.description && (
               <span className={styles.description}>{m.description}</span>
             )}
-            <span className={styles.format}>{m.format.toUpperCase()}</span>
+            <span className={styles.format}>
+              {m.format.toUpperCase()}
+              {m.slidesId && " + PPTX"}
+            </span>
           </Link>
         </li>
       ))}

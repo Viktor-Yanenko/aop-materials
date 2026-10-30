@@ -1,22 +1,23 @@
 export type MaterialType = "lecture" | "practical";
- 
+
 export interface Section {
   id: string;     // внутрішній ідентифікатор, латиницею
   number: number; // номер розділу
   title: string;
 }
- 
+
 export interface Material {
   slug: string;
   type: MaterialType;
   number: number;
   title: string;
   description?: string;
-  driveId: string; // порожній рядок = файл ще не додано
+  driveId: string;   // основний файл (конспект PDF / завдання DOCX); порожній = ще не додано
   format: "pdf" | "docx";
+  slidesId?: string; // презентація PPTX на Google Drive (необов’язково)
   section: string; // id розділу з масиву sections
 }
- 
+
 // Розділи в порядку робочої програми
 export const sections: Section[] = [
   { id: "algorithms", number: 1, title: "Основи алгоритмізації" },
@@ -26,46 +27,62 @@ export const sections: Section[] = [
   { id: "data-functions", number: 5, title: "Структуровані дані та функції" },
   { id: "files-modules", number: 6, title: "Робота з файлами та модулями" },
 ];
- 
+
+// Необов’язкові дані матеріалу
+interface Extra {
+  file?: string;        // ID основного файлу на Google Drive
+  slides?: string;      // ID презентації на Google Drive
+  description?: string;
+}
+
 // Допоміжні функції, щоб не повторювати slug / type / format у кожному записі.
 // Лекції завжди PDF, практичні завжди DOCX.
-function lecture(
-  section: string,
-  number: number,
-  title: string,
-  driveId = "",
-  description?: string,
-): Material {
-  return { slug: `lecture-${number}`, type: "lecture", number, title, description, driveId, format: "pdf", section };
+function lecture(section: string, number: number, title: string, extra: Extra = {}): Material {
+  return {
+    slug: `lecture-${number}`,
+    type: "lecture",
+    number,
+    title,
+    description: extra.description,
+    driveId: extra.file ?? "",
+    slidesId: extra.slides,
+    format: "pdf",
+    section,
+  };
 }
- 
-function practical(
-  section: string,
-  number: number,
-  title: string,
-  driveId = "",
-  description?: string,
-): Material {
-  return { slug: `practical-${number}`, type: "practical", number, title, description, driveId, format: "docx", section };
+
+function practical(section: string, number: number, title: string, extra: Extra = {}): Material {
+  return {
+    slug: `practical-${number}`,
+    type: "practical",
+    number,
+    title,
+    description: extra.description,
+    driveId: extra.file ?? "",
+    slidesId: extra.slides,
+    format: "docx",
+    section,
+  };
 }
- 
+
 // Матеріали в порядку робочої програми.
-// Щоб підключити файл, впиши його ID з Google Drive четвертим аргументом:
-//   lecture("algorithms", 1, "Вступ до дисципліни...", "1AbC...xyz", "опис"),
+// Файли підключаються четвертим аргументом-об’єктом, усі поля необов’язкові:
+//   lecture("algorithms", 4, "Лінійні алгоритми", { file: "1AbC...", slides: "1XyZ..." }),
+//   practical("algorithms", 1, "Розробка блок-схем...", { file: "1Qwe..." }),
 export const materials: Material[] = [
   // ── Розділ 1. Основи алгоритмізації ──
-  lecture("algorithms", 1, "Вступ до дисципліни. Алгоритми і програми", "1qwbmcG34FU4uIhcyk8nt_1pIKt4-du60"),
-  lecture("algorithms", 2, "Базові конструкції алгоритмів", "19Ln4Ri_yAfxVaoJt7hoLxbV4tu7s4joq"),
-  lecture("algorithms", 3, "Основні керуючі структури алгоритмів", "1Evwz4AQ-Sb9l_B40CpOK4RoBdCXnoNOk"),
-  lecture("algorithms", 4, "Лінійні алгоритми", "1BxkJGonTQ-txAs91eDct-nVeYHriOikn"),
-  practical("algorithms", 1, "Розробка блок-схем алгоритмів лінійних обчислювальних процесів", "1ytiio86zkntHdEDtkhxb_FrLZxbvQKXR"),
+  lecture("algorithms", 1, "Вступ до дисципліни. Алгоритми і програми", { file: "1qwbmcG34FU4uIhcyk8nt_1pIKt4-du60", slides:"1XSNvLSgo_e2Zcbs6FMVv6hxBHBC2PluJ" }),
+  lecture("algorithms", 2, "Базові конструкції алгоритмів", { file: "19Ln4Ri_yAfxVaoJt7hoLxbV4tu7s4joq" }),
+  lecture("algorithms", 3, "Основні керуючі структури алгоритмів", { file: "1Evwz4AQ-Sb9l_B40CpOK4RoBdCXnoNOk" }),
+  lecture("algorithms", 4, "Лінійні алгоритми", { file: "1BxkJGonTQ-txAs91eDct-nVeYHriOikn" }),
+  practical("algorithms", 1, "Розробка блок-схем алгоритмів лінійних обчислювальних процесів", { file: "1ytiio86zkntHdEDtkhxb_FrLZxbvQKXR" }),
   lecture("algorithms", 5, "Розгалужені алгоритми. Умовні оператори"),
   practical("algorithms", 2, "Розробка блок-схем алгоритмів розгалужених процесів"),
   lecture("algorithms", 6, "Циклічні алгоритми"),
   practical("algorithms", 3, "Розробка блок-схем алгоритмів циклічних процесів"),
- 
+
   // ── Розділ 2. Основи програмування та мови Python ──
-  lecture("python-intro", 7, "Арифметичні основи ЕОМ. Системи числення. Перевід чисел, дії над числами.", ""),
+  lecture("python-intro", 7, "Арифметичні основи ЕОМ. Системи числення. Перевід чисел, дії над числами."),
   practical("python-intro", 4, "Перевід чисел, дії в різних системах числення"),
   lecture("python-intro", 8, "Логічні основи ЕОМ. Елементи алгебри логіки"),
   practical("python-intro", 5, "Логічні вирази та таблиці істинності"),
@@ -75,7 +92,7 @@ export const materials: Material[] = [
   lecture("python-intro", 11, "Змінні та типи даних у Python. Оператори"),
   practical("python-intro", 7, "Обчислення виразів у середовищі IDLE"),
   practical("python-intro", 8, "Програмування графічних зображень (модуль turtle)"),
- 
+
   // ── Розділ 3. Базові можливості мови Python ──
   lecture("python-basics", 12, "Введення та виведення даних. Функція print()"),
   practical("python-basics", 9, "Консольний додаток із введенням і виведенням даних"),
@@ -87,7 +104,7 @@ export const materials: Material[] = [
   practical("python-basics", 12, "Консольний додаток з умовними операторами"),
   lecture("python-basics", 16, "Принципи роботи з циклами"),
   practical("python-basics", 13, "Консольний додаток з використанням циклів"),
- 
+
   // ── Розділ 4. Розширені можливості базових конструкцій ──
   lecture("constructs", 17, "Робота з рядками. Функція range()"),
   practical("constructs", 14, "Консольний додаток з використанням методів і функцій рядків та функції range()"),
@@ -97,7 +114,7 @@ export const materials: Material[] = [
   practical("constructs", 16, "Виявлення та виправлення помилок у програмах"),
   lecture("constructs", 20, "Масиви. Списки і кортежі"),
   practical("constructs", 17, "Робота зі списками та кортежами"),
- 
+
   // ── Розділ 5. Структуровані дані та функції ──
   lecture("data-functions", 21, "Основи роботи з двовимірними масивами"),
   practical("data-functions", 18, "Програмування з використанням двовимірних масивів"),
@@ -109,7 +126,7 @@ export const materials: Material[] = [
   practical("data-functions", 21, "Написання власних функцій"),
   lecture("data-functions", 25, "Рекурсія як метод програмування"),
   practical("data-functions", 22, "Прості задачі з рекурсією"),
- 
+
   // ── Розділ 6. Робота з файлами та модулями ──
   lecture("files-modules", 26, "Робота з файлами. Відкриття, читання, запис"),
   practical("files-modules", 23, "Створення програм для збереження і читання даних з файлів"),
@@ -118,29 +135,28 @@ export const materials: Material[] = [
   lecture("files-modules", 28, "Модулі та пакети у Python"),
   practical("files-modules", 25, "Створення та використання власного модуля"),
 ];
- 
+
 export const typeLabels: Record<MaterialType, string> = {
   lecture: "Лекція",
   practical: "Практична робота",
 };
- 
+
 export function getMaterialsByType(type: MaterialType): Material[] {
   return materials
     .filter((m) => m.type === type)
     .sort((a, b) => a.number - b.number);
 }
- 
+
 export function getMaterialBySlug(slug: string): Material | undefined {
   return materials.find((m) => m.slug === slug);
 }
- 
+
 export function getSection(id: string): Section | undefined {
   return sections.find((s) => s.id === id);
 }
- 
+
 export const previewUrl = (id: string) =>
   `https://drive.google.com/file/d/${id}/preview?hl=uk`;
- 
+
 export const downloadUrl = (id: string) =>
   `https://drive.google.com/uc?export=download&id=${id}`;
- 

@@ -6,11 +6,12 @@ import {
   getMaterialBySlug,
   getSection,
   typeLabels,
-  previewUrl,
-  downloadUrl,
 } from "@/data/materials";
 import styles from "./page.module.css";
 import DoneButton from "@/components/DoneButton/DoneButton";
+import MaterialViewer, {
+  type ViewerFile,
+} from "@/components/MaterialViewer/MaterialViewer";
 
 export const dynamicParams = false;
 
@@ -33,6 +34,18 @@ export default async function MaterialPage({
   const material = getMaterialBySlug(slug);
   if (!material) notFound();
   const section = getSection(material.section);
+  // які файли є в цього матеріалу
+  const files: ViewerFile[] = [];
+  if (material.driveId) {
+    files.push({
+      label: material.type === "lecture" ? "Конспект" : "Завдання",
+      id: material.driveId,
+      format: material.format,
+    });
+  }
+  if (material.slidesId) {
+    files.push({ label: "Презентація", id: material.slidesId, format: "pptx" });
+  }
 
   // сусіди за порядком робочої програми
   const index = materials.findIndex((m) => m.slug === slug);
@@ -50,31 +63,10 @@ export default async function MaterialPage({
         <p className={styles.description}>{material.description}</p>
       )}
 
-      {material.driveId ? (
-        <>
-          <div className={styles.actions}>
-            <a href={downloadUrl(material.driveId)} className={styles.download}>
-              Завантажити ({material.format.toUpperCase()})
-            </a>
-            <a
-              href={`https://drive.google.com/file/d/${material.driveId}/view`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={styles.secondary}
-            >
-              Відкрити в Google Drive
-            </a>
-            <DoneButton slug={material.slug} />
-          </div>
-
-          <div className={styles.viewer}>
-            <iframe
-              src={previewUrl(material.driveId)}
-              title={material.title}
-              allow="autoplay"
-            />
-          </div>
-        </>
+      {files.length > 0 ? (
+        <MaterialViewer files={files}>
+          <DoneButton slug={material.slug} />
+        </MaterialViewer>
       ) : (
         <div className={styles.empty}>
           <p>Матеріал ще не додано.</p>
